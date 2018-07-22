@@ -59,4 +59,28 @@ public class ContactDao {
 		}
 	}
 
+	public List<Contact> getListM(String name) {
+		try {
+			List<Contact> contacts = new ArrayList<>();
+			PreparedStatement stmt = connection.prepareStatement("select * from contact where name like '%" + name + "%'");
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Contact contact = new Contact();
+				contact.setId(rs.getLong("id"));
+				contact.setName(rs.getString("name"));
+				contact.setEmail(rs.getString("email"));
+				contact.setAddress(rs.getString("address"));
+				Calendar date_b = Calendar.getInstance();
+				date_b.setTime(rs.getDate("birthDate"));
+				contact.setBirthDate(date_b);
+				contacts.add(contact);
+			}
+			rs.close();
+			stmt.close();
+			return contacts;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

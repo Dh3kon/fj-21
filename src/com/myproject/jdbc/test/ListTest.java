@@ -12,10 +12,12 @@ public class ListTest {
 		ContactDao dao = new ContactDao();
 		List<Contact> contacts = dao.getList();
 		for (Contact contact : contacts) {
+			System.out.println("Id: " + contact.getId());
 			System.out.println("Name: " + contact.getName());
 			System.out.println("Email: " + contact.getEmail());
 			System.out.println("Address: " + contact.getAddress());
-			System.out.println("Birth date: " + new SimpleDateFormat("dd/MM/yyyy").format(contact.getBirthDate().getTime()) + "\n");
+			System.out.println("Birth date: "
+					+ new SimpleDateFormat("dd/MM/yyyy").format(contact.getBirthDate().getTime()) + "\n");
 		}
 	}
 }

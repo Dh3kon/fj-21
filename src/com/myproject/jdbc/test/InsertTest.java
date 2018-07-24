@@ -16,7 +16,7 @@ public class InsertTest {
 		contact.setEmail("mercy@overwatch.com");
 		contact.setAddress("Recovery Park");
 		contact.setBirthDate(Calendar.getInstance());
-
+		
 		ContactDao dao = new ContactDao();
 		dao.add(contact);
 		System.out.println("Contact added to database!");

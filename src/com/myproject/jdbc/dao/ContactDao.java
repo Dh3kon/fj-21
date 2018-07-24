@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.myproject.jdbc.ConnectionFactory;
+import com.myproject.jdbc.exception.DaoException;
 import com.myproject.jdbc.model.Contact;
 
 public class ContactDao {
@@ -56,6 +57,33 @@ public class ContactDao {
 			return contacts;
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		}
+	}
+
+	public void update(Contact contact) {
+		String sql = "update contact set name = ?, email = ?, address = ?, birthDate =? where id = ?";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, contact.getName());
+			stmt.setString(2, contact.getEmail());
+			stmt.setString(3, contact.getAddress());
+			stmt.setDate(4, new Date(contact.getBirthDate().getTimeInMillis()));
+			stmt.setLong(5, contact.getId());
+			stmt.execute();
+			stmt.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void remove(Contact contact) {
+		try {
+			PreparedStatement stmt = connection.prepareStatement("delete from contact where id = ?");
+			stmt.setLong(1, contact.getId());
+			stmt.execute();
+			stmt.close();
+		} catch (SQLException e) {
+			throw new DaoException();
 		}
 	}
 
